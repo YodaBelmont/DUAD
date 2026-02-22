@@ -1,1 +1,0 @@
-print("Dentro de 10 años yo voy a tener: " + str(22 + 10) + " años")
