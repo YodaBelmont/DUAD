@@ -1,0 +1,11 @@
+-Tercer Ejercicio-
+
+definir i = 0
+definir numero
+definir suma
+pedir numero
+
+Mientras que i <= numero
+	suma = suma + i
+	i = i + 1
+mostrar suma	
