@@ -2,10 +2,7 @@ import actions
 import data
 
 def show_menu():
-    if data.file_exists:
-        student_list = data.import_csv()
-    else:
-        student_list = []
+    student_list = []
     headers = ("Full Name", "Group", "Spanish grade", "English grade", "Social Studies grade", "Science grade")
     option = 0
     while True:
@@ -17,6 +14,7 @@ WELCOME
 Please, select an option:
 -------------------------
 1- Add Student
+2- Delete Student
 2- Show students data
 3- Show top 3 best students
 4- Show average scores
@@ -30,14 +28,34 @@ Please, select an option:
                 student = actions.create_student()
                 student_list.append(student)
             elif option == 2:
-                print(student_list)
+                actions.delete_student(student_list,input("Enter Students Full Name: "),input("Enter Students Group: "))
             elif option == 3:
-                averages = actions.get_average_student(student_list)
-                actions.show_top_3(averages)
+                if student_list:
+                    print(student_list)
+                else:
+                    print("NO DATA TO SHOW")
             elif option == 4:
-                print(actions.get_average_student(student_list))
+                averages = actions.get_average_student(student_list)
+                if averages != 0:
+                    actions.show_top_3(averages)
+                else:
+                    print("NO DATA TO SHOW")
             elif option == 5:
-                data.write_csv(headers)
+                averages = actions.get_average_student(student_list)
+                if averages != 0:
+                    print(actions.get_general_average(averages, student_list))
+                else:
+                    print("NO DATA TO SHOW")
+            elif option == 6:
+                if student_list:
+                    data.write_csv(headers, student_list)
+                else:
+                    print("THERE IS NO DATA TO EXPORT")
+                    print("PLEASE ADD A STUDENT OR IMPORT AN EXISTING FILE")
+            elif option == 7:
+                if data.file_exists():
+                    student_list = data.import_csv()
+                else:
+                    print("THERE IS NO DATA TO IMPORT")
         except ValueError as error:
             print(f"Error: {error}")
-    

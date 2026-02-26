@@ -22,14 +22,17 @@ ENTER STUDENT DATA
 def get_average_student(students):
     averages = []
     average = 0
-    for student in students:
-        average += int(student["Spanish grade"])
-        average += int(student["English grade"])
-        average += int(student["Social Studies grade"])
-        average += int(student["Science grade"])
-        average = average / 4
-        averages.append(average)
-        average = 0
+    if students:
+        for student in students:
+            average += int(student["Spanish grade"])
+            average += int(student["English grade"])
+            average += int(student["Social Studies grade"])
+            average += int(student["Science grade"])
+            average = average / 4
+            averages.append(average)
+            average = 0
+    else:
+        return 0
     return averages
 
 
@@ -39,3 +42,19 @@ def show_top_3(averages):
         print(f"{greater}")
         averages.remove(greater)
     return 0
+
+
+def get_general_average(averages, total_students):
+    total_sum = 0
+    for average in averages:
+        total_sum += average
+    return total_sum / len(total_students)
+
+
+def delete_student(students_data, name, group):
+    for student in students_data:
+        student_name = student["Full Name"]
+        student_name = "".join(student_name.split()).lower()
+        if student_name == name.strip().lower() and group == student["Group"]:
+            students_data.remove(student)
+            return 0
