@@ -96,8 +96,29 @@ def get_average_student(students):
     return averages
 
 
-# def show_failed_grades(students_list):
-#
+def get_failed_scores(student):
+    failed_scores = []
+    subjects = [
+        "Spanish grade",
+        "English grade",
+        "Social Studies grade",
+        "Science grade",
+    ]
+    for subject in subjects:
+        if student[subject] < 60:
+            failed_scores.append(student[subject])
+            print(f"Name: {student["Full Name"]}")
+            print(f"Group: {student["Group"]}")
+            print(f"\n{subject}: {student[subject]}")
+    return failed_scores
+
+
+def get_all_failed_scores(students_list):
+    if students_list:
+        for student in students_list:
+            get_failed_scores(student)
+    else:
+        return print("THERE IS NO DATA")
 
 
 def show_top_3(students):

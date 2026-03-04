@@ -28,9 +28,10 @@ Please, select an option:
 3- Show students data
 4- Show top 3 best students
 5- Show average score
-6- Export all current data
-7- Import data
-8- Exit
+6- Show failed scores
+7- Export all current data
+8- Import data
+9- Exit
 -------------------------
 """
                 )
@@ -51,17 +52,19 @@ Please, select an option:
         elif option == 5:
             actions.get_general_average(student_list)
         elif option == 6:
+            actions.get_all_failed_scores(student_list)
+        elif option == 7:
             if student_list:
                 data.write_csv(headers, student_list)
             else:
                 print("THERE IS NO DATA TO EXPORT")
                 print("PLEASE ADD A STUDENT OR IMPORT AN EXISTING FILE")
-        elif option == 7:
+        elif option == 8:
             if data.file_exists():
                 student_list = data.import_csv()
             else:
                 print("THERE IS NO DATA TO IMPORT")
-        elif option == 8:
+        elif option == 9:
             print("Exiting program...")
             break
         else:
