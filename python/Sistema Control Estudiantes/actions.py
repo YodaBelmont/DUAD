@@ -29,12 +29,15 @@ ENTER STUDENT DATA
 
 
 def student_exist(name, group, students_list):
+    total_dupes = 0
     for student in students_list:
-        if student["Full Name"] == name or student["Group"] == group:
-            print("THERE CANNOT BE DUPLICATES")
-            print("THIS INFO WILL NOT BE INCLUDED")
-            return True
-        return False
+        if student["Full Name"] == name and student["Group"] == group:
+            total_dupes += 1
+    if total_dupes > 0:
+        print("THERE CANNOT BE DUPLICATES")
+        print("THIS INFO WILL NOT BE INCLUDED")
+        return True
+    return False
 
 
 def get_valid_group():
@@ -52,7 +55,7 @@ def get_valid_name():
     name = input("Full Name: ")
     while True:
         name = name.strip()
-        if name.isalpha():
+        if name.replace(" ", "").isalpha():
             return name
         else:
             print("NAME CANNOT CONTAIN NUMBERS OR BE IN BLANK")
@@ -77,10 +80,10 @@ def show_students_data(students_list):
 
 def calculate_average(student):
     total_sum = 0
-    total_sum += student["Spanish grade"]
-    total_sum += student["English grade"]
-    total_sum += student["Social Studies grade"]
-    total_sum += student["Science grade"]
+    total_sum += int(student["Spanish grade"])
+    total_sum += int(student["English grade"])
+    total_sum += int(student["Social Studies grade"])
+    total_sum += int(student["Science grade"])
     total_sum = total_sum // 4
     return total_sum
 
@@ -107,8 +110,8 @@ def get_failed_scores(student):
     for subject in subjects:
         if student[subject] < 60:
             failed_scores.append(student[subject])
-            print(f"Name: {student["Full Name"]}")
-            print(f"Group: {student["Group"]}")
+            print(f"Name: {student['Full Name']}")
+            print(f"Group: {student['Group']}")
             print(f"\n{subject}: {student[subject]}")
     return failed_scores
 
@@ -153,6 +156,7 @@ def delete_student(students_data):
     if not students_data:
         print("NO DATA TO DELETE")
         return False
+    matches = 0
     option = 0
     group = get_valid_group()
     name = get_valid_name()
