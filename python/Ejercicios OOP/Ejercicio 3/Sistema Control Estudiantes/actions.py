@@ -2,41 +2,49 @@ import re
 
 
 class student:
-    def __init__(self, full_name):
+    def __init__(
+        self,
+        full_name,
+        group,
+        spanish_grade,
+        english_grade,
+        science_grade,
+        social_studies_grade,
+    ):
         self.full_name = full_name
+        self.group = group
+        self.spanish_grade = spanish_grade
+        self.english_grade = english_grade
+        self.science_grade = science_grade
+        self.social_studies_grade = social_studies_grade
 
 
 def create_student(students_list):
-    student = {}
-    while True:
-        print(
-            """
--------------------------
-ENTER STUDENT DATA
--------------------------
-"""
-        )
-        student["Full Name"] = get_valid_name()
-        student["Group"] = get_valid_group()
-        if student_exist(student["Full Name"], student["Group"], students_list):
-            return 0
-        while True:
-            try:
-                student["Spanish grade"] = get_valid_grade("Spanish grade")
-                student["English grade"] = get_valid_grade("English grade")
-                student["Social Studies grade"] = get_valid_grade(
-                    "Social Studies grade"
-                )
-                student["Science grade"] = get_valid_grade("Science grade")
-                return student
-            except ValueError as error:
-                print(error)
+    name = get_valid_name()
+    group = get_valid_group()
+    if student_exist(name, group, students_list):
+        return
+    student1 = student(name, group, get_grades())
+    return student1
+
+
+def get_grades():
+    grades = {}
+    assignments = [
+        "Spanish grade",
+        "English grade",
+        "Science grade",
+        "Social Studies grade",
+    ]
+    for subject in assignments:
+        grades[subject] = get_valid_grade(subject)
+    return grades
 
 
 def student_exist(name, group, students_list):
     total_dupes = 0
     for student in students_list:
-        if student["Full Name"] == name and student["Group"] == group:
+        if student.full_name == name and student.group == group:
             total_dupes += 1
     if total_dupes > 0:
         print("THERE CANNOT BE DUPLICATES")
@@ -87,10 +95,14 @@ def show_students_data(students_list):
 
 def calculate_average(student):
     total_sum = 0
-    total_sum += int(student["Spanish grade"])
-    total_sum += int(student["English grade"])
-    total_sum += int(student["Social Studies grade"])
-    total_sum += int(student["Science grade"])
+    subjects = [
+        "spanish_grade",
+        "english_grade",
+        "social_studies_grade",
+        "science_grade",
+    ]
+    for subject in subjects:
+        total_sum += student.grades[subject]
     total_sum = total_sum / 4
     return total_sum
 
@@ -109,17 +121,17 @@ def get_average_student(students):
 def get_failed_scores(student):
     failed_scores = []
     subjects = [
-        "Spanish grade",
-        "English grade",
-        "Social Studies grade",
-        "Science grade",
+        "spanish_grade",
+        "english_grade",
+        "social_studies_grade",
+        "science_grade",
     ]
     for subject in subjects:
-        if student[subject] < 60:
+        if student.grades[subject] < 60:
             failed_scores.append(student[subject])
-            print(f"Name: {student['Full Name']}")
-            print(f"Group: {student['Group']}")
-            print(f"\n{subject}: {student[subject]}")
+            print(f"Name: {student.full_name}")
+            print(f"Group: {student.group}")
+            print(f"\n{subject}: {student.grade[subject]}")
     return failed_scores
 
 
@@ -169,12 +181,9 @@ def delete_student(students_data):
     option = 0
     group = get_valid_group()
     name = get_valid_name()
-    student_info = {}
     for student in students_data:
-        if student["Full Name"] == name and group == student["Group"]:
+        if student.full_name == name and group == student.group:
             match = True
-            student_info["Full Name"] = name
-            student_info["Group"] = group
             break
     if match:
         print(f"STUDENTS FULL NAME:{name}")
