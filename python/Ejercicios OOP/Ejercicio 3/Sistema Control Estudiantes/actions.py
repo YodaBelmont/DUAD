@@ -1,6 +1,11 @@
 import re
 
 
+class student:
+    def __init__(self, full_name):
+        self.full_name = full_name
+
+
 def create_student(students_list):
     student = {}
     while True:
@@ -29,12 +34,15 @@ ENTER STUDENT DATA
 
 
 def student_exist(name, group, students_list):
+    total_dupes = 0
     for student in students_list:
-        if student["Full Name"] == name or student["Group"] == group:
-            print("THERE CANNOT BE DUPLICATES")
-            print("THIS INFO WILL NOT BE INCLUDED")
-            return True
-        return False
+        if student["Full Name"] == name and student["Group"] == group:
+            total_dupes += 1
+    if total_dupes > 0:
+        print("THERE CANNOT BE DUPLICATES")
+        print("THIS INFO WILL NOT BE INCLUDED")
+        return True
+    return False
 
 
 def get_valid_group():
@@ -52,7 +60,7 @@ def get_valid_name():
     name = input("Full Name: ")
     while True:
         name = name.strip()
-        if name.isalpha():
+        if name.replace(" ", "").isalpha():
             return name
         else:
             print("NAME CANNOT CONTAIN NUMBERS OR BE IN BLANK")
@@ -60,12 +68,14 @@ def get_valid_name():
 
 
 def get_valid_grade(subject):
-    grade = int(input(f"Enter {subject} grade: "))
-    while grade < 0 or grade > 100:
-        print("PLEASE ENTER A VALID NUMBER")
-        print("BETWEEN 0 AND 100")
-        grade = int(input(f"Enter {subject} grade: "))
-    return grade
+    while True:
+        try:
+            grade = int(input(f"Enter {subject}: "))
+            if 0 <= grade <= 100:
+                return grade
+            print("PLEASE ENTER A NUMBER BETWEEN 0 AND 100")
+        except ValueError:
+            print("PLEASE ENTER A VALID NUMBER")
 
 
 def show_students_data(students_list):
@@ -77,11 +87,11 @@ def show_students_data(students_list):
 
 def calculate_average(student):
     total_sum = 0
-    total_sum += student["Spanish grade"]
-    total_sum += student["English grade"]
-    total_sum += student["Social Studies grade"]
-    total_sum += student["Science grade"]
-    total_sum = total_sum // 4
+    total_sum += int(student["Spanish grade"])
+    total_sum += int(student["English grade"])
+    total_sum += int(student["Social Studies grade"])
+    total_sum += int(student["Science grade"])
+    total_sum = total_sum / 4
     return total_sum
 
 
@@ -107,8 +117,8 @@ def get_failed_scores(student):
     for subject in subjects:
         if student[subject] < 60:
             failed_scores.append(student[subject])
-            print(f"Name: {student["Full Name"]}")
-            print(f"Group: {student["Group"]}")
+            print(f"Name: {student['Full Name']}")
+            print(f"Group: {student['Group']}")
             print(f"\n{subject}: {student[subject]}")
     return failed_scores
 
@@ -116,9 +126,11 @@ def get_failed_scores(student):
 def get_all_failed_scores(students_list):
     if students_list:
         for student in students_list:
-            get_failed_scores(student)
+            failed_subjects = get_failed_scores(student)
+        if not failed_subjects:
+            print("THERE IS NO DATA TO SHOW")
     else:
-        return print("THERE IS NO DATA")
+        return print("THERE IS NO DATA TO SHOW")
 
 
 def show_top_3(students):
@@ -153,25 +165,27 @@ def delete_student(students_data):
     if not students_data:
         print("NO DATA TO DELETE")
         return False
+    match = False
     option = 0
     group = get_valid_group()
     name = get_valid_name()
+    student_info = {}
     for student in students_data:
         if student["Full Name"] == name and group == student["Group"]:
-            print(f"STUDENTS FULL NAME:{name}")
-            print(f"STUDENTS GROUP:{group}")
-            while True:
-                option = int(
-                    input("DO YOU WISH TO REMOVE THIS STUDENT?\n1-Yes\n2-No\n:")
-                )
-                if option == 1:
-                    students_data.remove(student)
-                    return True
-                elif option == 2:
-                    print("ACTION CANCELED")
-                    return False
-                print("PLEASE ENTER A VALID OPTION")
-                continue
-        else:
-            print("THERE ARE NO MATCHES")
-            return False
+            match = True
+            student_info["Full Name"] = name
+            student_info["Group"] = group
+            break
+    if match:
+        print(f"STUDENTS FULL NAME:{name}")
+        print(f"STUDENTS GROUP:{group}")
+        while True:
+            option = int(input("DO YOU WISH TO REMOVE THIS STUDENT?\n1-Yes\n2-No\n:"))
+            if option == 1:
+                students_data.remove(student)
+                return True
+            elif option == 2:
+                print("ACTION CANCELED")
+                return False
+            print("PLEASE ENTER A VALID OPTION")
+            continue
