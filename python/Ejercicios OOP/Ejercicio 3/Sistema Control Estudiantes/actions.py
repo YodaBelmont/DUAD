@@ -6,17 +6,19 @@ class student:
         self,
         full_name,
         group,
-        spanish_grade,
-        english_grade,
-        science_grade,
-        social_studies_grade,
+        grades,
     ):
         self.full_name = full_name
         self.group = group
-        self.spanish_grade = spanish_grade
-        self.english_grade = english_grade
-        self.science_grade = science_grade
-        self.social_studies_grade = social_studies_grade
+        self.grades = grades
+
+    def __str__(self):
+        return (
+            f"Full Name: {self.full_name}, group: {self.group}, grades: {self.grades}"
+        )
+
+    def to_dict(self):
+        return {"Full Name": self.full_name, "Group": self.group, "Grades": self.grades}
 
 
 def create_student(students_list):
@@ -88,20 +90,15 @@ def get_valid_grade(subject):
 
 def show_students_data(students_list):
     if students_list:
-        print(students_list)
+        for student in students_list:
+            print(student)
     else:
         print("NO DATA TO SHOW")
 
 
 def calculate_average(student):
     total_sum = 0
-    subjects = [
-        "spanish_grade",
-        "english_grade",
-        "social_studies_grade",
-        "science_grade",
-    ]
-    for subject in subjects:
+    for subject in student.grades:
         total_sum += student.grades[subject]
     total_sum = total_sum / 4
     return total_sum
@@ -120,18 +117,12 @@ def get_average_student(students):
 
 def get_failed_scores(student):
     failed_scores = []
-    subjects = [
-        "spanish_grade",
-        "english_grade",
-        "social_studies_grade",
-        "science_grade",
-    ]
-    for subject in subjects:
+    for subject in student.grades:
         if student.grades[subject] < 60:
-            failed_scores.append(student[subject])
+            failed_scores.append(student.grades[subject])
             print(f"Name: {student.full_name}")
             print(f"Group: {student.group}")
-            print(f"\n{subject}: {student.grade[subject]}")
+            print(f"{subject}: {student.grades[subject]}\n")
     return failed_scores
 
 

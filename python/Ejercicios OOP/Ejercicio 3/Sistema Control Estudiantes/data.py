@@ -1,5 +1,6 @@
 import csv
 import os
+import actions
 
 
 def file_exists():
@@ -13,7 +14,8 @@ def write_csv(headers, students_data):
         with open("students_data.csv", "w", newline="", encoding="utf-8") as file:
             writer = csv.DictWriter(file, headers)
             writer.writeheader()
-            writer.writerows(students_data)
+            for student in students_data:
+                writer.writerow(student.to_dict())
         return print("DATA EXPORTED SUCCESSFULLY")
     except Exception as error:
         print(error)
@@ -21,11 +23,21 @@ def write_csv(headers, students_data):
 
 def import_csv():
     students_data = []
-    grades = ["Spanish grade", "English grade", "Science grade", "Social Studies grade"]
+    assignments = [
+        "Spanish grade",
+        "English grade",
+        "Science grade",
+        "Social Studies grade",
+    ]
     with open("students_data.csv", "r") as file:
         reader = csv.DictReader(file)
         for row in reader:
-            for subject in grades:
+            grades = {}
+            name = row["Full Name"]
+            group = row["Group"]
+            for subject in assignments:
                 row[subject] = int(row[subject])
-            students_data.append(row)
+                grades[subject] = row[subject]
+            student1 = actions.student(name, group, grades)
+            students_data.append(student1)
         return students_data

@@ -7,10 +7,17 @@ class Bus:
         if len(self.passengers) >= self.max_passengers:
             print("NO SEATS AVAILABLE")
             return
-
+        if not isinstance(person, Person):
+            print("ONLY REAL PASSENGERS CAN ABOARD THE BUS")
+            return
         self.passengers.append(person)
         print("PASSENGER ADDED")
         print(f"WELCOME ABOARD: {person.name}")
+
+    def del_passenger(self, person):
+        self.passengers.pop(person)
+        print("PASSENGER DELETED:")
+        print(self.passengers.pop(person))
 
 
 class Person:
