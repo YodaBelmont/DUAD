@@ -18,7 +18,11 @@ class student:
         )
 
     def to_dict(self):
-        return {"Full Name": self.full_name, "Group": self.group, "Grades": self.grades}
+        data = {"Full Name": self.full_name, "Group": self.group}
+
+        for subject, grade in self.grades.items():
+            data[subject] = grade
+        return data
 
 
 def create_student(students_list):

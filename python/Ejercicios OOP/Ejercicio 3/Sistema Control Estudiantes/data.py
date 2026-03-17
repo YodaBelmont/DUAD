@@ -29,15 +29,12 @@ def import_csv():
         "Science grade",
         "Social Studies grade",
     ]
-    with open("students_data.csv", "r") as file:
+    with open("students_data.csv", "r", encoding="utf-8") as file:
         reader = csv.DictReader(file)
         for row in reader:
             grades = {}
-            name = row["Full Name"]
-            group = row["Group"]
             for subject in assignments:
-                row[subject] = int(row[subject])
-                grades[subject] = row[subject]
-            student1 = actions.student(name, group, grades)
+                grades[subject] = int(row[subject])
+            student1 = actions.student(row["Full Name"], row["Group"], grades)
             students_data.append(student1)
         return students_data

@@ -4,7 +4,14 @@ import data
 
 def show_menu():
     student_list = []
-    headers = ("Full Name", "Group", "Grades")
+    headers = (
+        "Full Name",
+        "Group",
+        "Spanish grade",
+        "English grade",
+        "Science grade",
+        "Social Studies grade",
+    )
     while True:
         try:
             option = int(
