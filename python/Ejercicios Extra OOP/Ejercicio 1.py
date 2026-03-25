@@ -1,11 +1,10 @@
 class Rectangle:
 
     def __init__(self, width, height):
-        while True:
-            if width >= 0 and height >= 0:
-                self.width = width
-                self.height = height
-                break
+        if width >= 0 and height >= 0:
+            self.width = width
+            self.height = height
+        else:
             raise ValueError("VALUES MUST BE POSITIVE")
 
     def get_area(self):
@@ -19,7 +18,7 @@ class Rectangle:
         return res
 
 
-rectangle1 = Rectangle(250, -300)
+rectangle1 = Rectangle(250, 300)
 
 rectangle1.get_area()
 rectangle1.get_perimeter()
