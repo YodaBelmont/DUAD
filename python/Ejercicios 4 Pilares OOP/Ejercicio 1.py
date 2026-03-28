@@ -12,13 +12,12 @@ class BankAccount:
 
 
 class SavingsAccount(BankAccount):
-    def __init__(self, min_balance):
+    def __init__(self, min_balance, balance):
+        super.__init__()
         self.min_balance = min_balance
 
     def loan_funds(self, amount):
         if (self.balance - amount) < self.min_balance:
-            print("ACTION NOT ALLOwED")
-            return
+            raise Exception("ACTION NOT ALLOwED")
 
-        self.min_balance -= amount
-        print(f"FUNDS LEFT: {self.min_balance}")
+        super().loan_funds(amount)
