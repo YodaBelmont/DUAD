@@ -3,7 +3,7 @@ def is_int(func):
         for arg in args:
             if not isinstance(arg, (int, float)):
                 raise ValueError("PARAMETERS MUST BE NUMBERS")
-        func(*args)
+        return func(*args)
 
     return wrapper
 

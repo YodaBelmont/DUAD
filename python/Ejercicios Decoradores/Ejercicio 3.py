@@ -1,6 +1,16 @@
 from datetime import date
 
 
+def validate_user(func):
+    def wrapper(user, *args, **kwargs):
+        if not user.age >= 18:
+            raise Exception("USER MUST BE AT LEAST 18 YEARS OLD")
+
+        func(user, *args, **kwargs)
+
+    return wrapper
+
+
 class User:
     def __init__(self, date_of_birth, full_name):
         self.full_name = full_name
@@ -18,19 +28,10 @@ class User:
             )
         )
 
-    def validate_user(func):
-        def wrapper(User, *args, **kwargs):
-            if not User.age >= 18:
-                raise Exception("USER MUST BE AT LEAST 18 YEARS OLD")
-
-            func(User, *args, **kwargs)
-
-        return wrapper
-
     @validate_user
     def change_name(self):
         self.full_name = input("ENTER NEW FULL NAME: ")
 
 
-user1 = User(date(2020, 1, 26), "Esteban Matamoros")
+user1 = User(date(2003, 1, 26), "Esteban Matamoros")
 user1.change_name()

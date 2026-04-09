@@ -1,8 +1,9 @@
 def print_param_return(func):
-    def wrapper(num1, num2):
-        print(num1, num2)
-        result = func(num1, num2)
+    def wrapper(*args, **kwargs):
+        print(*args, **kwargs)
+        result = func(*args, **kwargs)
         print(result)
+        return result
 
     return wrapper
 
