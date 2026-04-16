@@ -10,13 +10,13 @@ class Double_Ended_Queue:
         self.front = front
         self.rear = rear
 
-    def print_queue(self):
+    def print_double_ended_queue(self):
         if self.front is None:
             print("NO DATA TO SHOW")
             return None
         node = self.front
         while node is not None:
-            print(node)
+            print(node.data)
             node = node.next
 
     def push_left(self, new_node):
@@ -64,3 +64,27 @@ class Double_Ended_Queue:
         self.rear.next = None
         current.prev = None
         return current
+
+
+node1 = Node("Esteban")
+node2 = Node("Prado")
+node3 = Node("Rodolfo")
+node4 = Node("Juancho")
+node5 = Node("JoseAntonio")
+
+double_ended_queue1 = Double_Ended_Queue()
+
+double_ended_queue1.push_left(node1)
+double_ended_queue1.push_left(node3)
+double_ended_queue1.push_right(node2)
+double_ended_queue1.push_right(node4)
+
+double_ended_queue1.print_double_ended_queue()
+
+print("-------")
+
+double_ended_queue1.pop_right()
+double_ended_queue1.pop_left()
+
+
+double_ended_queue1.print_double_ended_queue()
