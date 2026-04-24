@@ -5,7 +5,7 @@ def reverse_bubble_sort(list_to_sort):
         for index in range(size - 1, outer_index, -1):
             current_number = list_to_sort[index]
             prev_number = list_to_sort[index - 1]
-            if prev_number < current_number:
+            if prev_number > current_number:
                 changes_made = True
                 list_to_sort[index] = prev_number
                 list_to_sort[index - 1] = current_number
