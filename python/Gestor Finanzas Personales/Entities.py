@@ -3,15 +3,10 @@ class Category():
         self.category = category
 
 
-class Outcome():
-    def __init__(self, title, amount, category):
+class Transaction():
+    def __init__(self, title, amount, transaction_type, category, date):
         self.title = title
         self.amount = amount
+        self.transaction_type = transaction_type
         self.category = category
-
-
-class Income():
-    def __init__(self,title, amount, category):
-        self.title = title
-        self.amount = amount
-        self.category = category
+        self.date = date
