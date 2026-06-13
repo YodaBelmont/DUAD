@@ -10,3 +10,11 @@ class Transaction():
         self.transaction_type = transaction_type
         self.category = category
         self.date = date
+    
+    
+    def to_row(self):
+        return [self.title, 
+                self.amount,
+                self.transaction_type,
+                self.category,
+                self.date]

@@ -37,7 +37,8 @@ def show_main_menu():
         if event == "REGISTER NEW TRANSACTION":
             transaction = show_add_transaction_interface()
             entities_table.append(transaction)
-            table_rows = get_table_rows(transaction, entities_table)
+            for entity in entities_table:
+                table_rows.append(entity.to_row())
 
             window["table"].update(values=table_rows)
 
@@ -45,7 +46,8 @@ def show_main_menu():
             Data.write_csv(headings, table_rows)
 
         if event == "import":
-            Data.import_csv()
+            table_rows = Data.import_csv()
+            window["table"].update(values=table_rows)
 
     window.close()
 
@@ -65,19 +67,12 @@ def show_create_category_interface():
             break
 
         if event == "Add":
-            category1 = entity.Category(values["title"])
+            category = entity.Category(values["title"])
             sg.popup("Category Added")
             window.close()
             break
-    return category1
+    return category
 
-
-def get_table_rows(transaction, entities_table):
-    table_rows = []
-    for transaction in entities_table:
-        table_rows.append([transaction.title, transaction.amount, transaction.transaction_type, transaction.category, transaction.date])
-
-    return table_rows
 
 
 def show_add_transaction_interface():
@@ -95,7 +90,6 @@ def show_add_transaction_interface():
 
         [sg.Button("Add category", key="Add")],
 
-        #[sg.Checkbox("ENTER DATE MANUALLY", key="auto_date", enable_events=True)],
         [sg.CalendarButton("Select Date", target="date", format="%d/%m/%Y")],
 
         [sg.Input(key="date")],
@@ -111,35 +105,17 @@ def show_add_transaction_interface():
         if event == sg.WIN_CLOSED or event == "Cancel":
             break
 
-        # if event == "auto_date":
-        #     boolean_value = values["auto_date"]
-
-        #     window["date_text"].update(visible=boolean_value)
-        #     window["date"].update(visible=boolean_value)
-
-
         if event == "Add":
             category = show_create_category_interface()
             category_list.append(category)
             titles = [category.category for category in category_list]
             window["category_list"].update(values=titles)
 
-
         if event == "Accept":
             if not values["title"] or not values["amount"] or not values["category_list"]:
                 sg.popup("CANNOT LEAVE ANY BLANK SPACES")
             else:
-                if values["types"] == "Income":
-                    income = entity.Transaction(values["title"], values["amount"], values["types"], values["category_list"], values["date"])
-                    sg.popup("Transaction Added")
-                    window.close()
-                    return income
-                else:
-                    outcome = entity.Transaction(values["title"], values["amount"], values["types"], values["category_list"], values["date"])
-                    sg.popup("Transaction Added")
-                    window.close()
-                    return outcome
-
-
-
-show_main_menu()
+                transaction = entity.Transaction(values["title"], values["amount"], values["types"], values["category_list"], values["date"])
+                sg.popup("Transaction Added")
+                window.close()
+                return transaction
