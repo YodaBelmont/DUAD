@@ -35,15 +35,11 @@ def show_main_menu():
             break
 
         if event == "REGISTER NEW TRANSACTION":
-            transaction = show_add_transaction_interface()
-            entities_table.append(transaction)
-            for entity in entities_table:
-                table_rows.append(entity.to_row())
-
+            show_add_transaction_interface(entities_table,table_rows)
             window["table"].update(values=table_rows)
 
         if event == "save":
-            Data.write_csv(headings, table_rows)
+            Data.write_csv(table_rows)
 
         if event == "import":
             table_rows = Data.import_csv()
@@ -53,6 +49,7 @@ def show_main_menu():
 
 
 def show_create_category_interface():
+    category_list = []
     layout = [
         [sg.Text("Title")], [sg.Input(key="title")],
 
@@ -67,15 +64,15 @@ def show_create_category_interface():
             break
 
         if event == "Add":
-            category = entity.Category(values["title"])
+            entity.get_category(category_list, values["title"])
             sg.popup("Category Added")
             window.close()
             break
-    return category
+    return category_list
 
 
 
-def show_add_transaction_interface():
+def show_add_transaction_interface(entities_table, table_rows):
     category_list = []
     layout = [
         [sg.Text("Transaction Type")],
@@ -106,16 +103,14 @@ def show_add_transaction_interface():
             break
 
         if event == "Add":
-            category = show_create_category_interface()
-            category_list.append(category)
-            titles = [category.category for category in category_list]
-            window["category_list"].update(values=titles)
+            category_list = show_create_category_interface()
+            window["category_list"].update(values=category_list)
 
         if event == "Accept":
             if not values["title"] or not values["amount"] or not values["category_list"]:
                 sg.popup("CANNOT LEAVE ANY BLANK SPACES")
             else:
-                transaction = entity.Transaction(values["title"], values["amount"], values["types"], values["category_list"], values["date"])
+                entity.get_transaction(entities_table, table_rows, values)
                 sg.popup("Transaction Added")
-                window.close()
-                return transaction
+                break
+    window.close()

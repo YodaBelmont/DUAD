@@ -18,3 +18,14 @@ class Transaction():
                 self.transaction_type,
                 self.category,
                 self.date]
+
+
+def get_transaction(entities_table, table_rows, values):
+    transaction = Transaction(values["title"], values["amount"], values["types"], values["category_list"], values["date"])
+    entities_table.append(transaction)
+    table_rows.append(transaction.to_row())
+
+
+def get_category(category_list, title):
+    category1 = Category(title) 
+    category_list.append(category1.category)
