@@ -20,9 +20,13 @@ class Transaction():
                 self.date]
 
 
-def get_transaction(entities_table, table_rows, values):
-    transaction = Transaction(values["title"], values["amount"], values["types"], values["category_list"], values["date"])
-    entities_table.append(transaction)
+def get_income(table_rows, values):
+    transaction = Transaction(values["title"], values["amount"], "income", values["category_list"], values["date"])
+    table_rows.append(transaction.to_row())
+
+
+def get_outcome(table_rows, values):
+    transaction = Transaction(values["title"], values["amount"], "outcome", values["category_list"], values["date"])
     table_rows.append(transaction.to_row())
 
 

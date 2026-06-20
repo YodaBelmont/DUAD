@@ -1,9 +1,11 @@
 import FreeSimpleGUI as sg
 import Entities as entity
 import Data
+import os
 def show_main_menu():
+    changes_made = False
+    category_list = []
     headings = ["Title", "Amount", "Type", "Category" , "Date"]
-    entities_table = []
     table_rows = []
     layout = [
         [sg.Text("-" * 6), sg.Text("FINANCE SYSTEM MANAGEMENT"), sg.Text("-" * 6)],
@@ -16,14 +18,12 @@ def show_main_menu():
             enable_events=True,
             justification="left",
             size=(100, 10))],
-        [sg.Button("REGISTER NEW TRANSACTION")],
+        [sg.Button("ADD CATEGORY")],
 
-        [sg.Text("IMPORT EXISTING FILES")],
-        [sg.Button("Import", key="import")],
+        [sg.Button("ADD INCOME")],
 
+        [sg.Button("ADD OUTCOME")],
 
-        [sg.Text("SAVE FILES")],
-        [sg.Button("Save", key="save")]
         ]
 
     window = sg.Window("FINANCE MANAGEMENT", layout, size=(500,500))
@@ -31,25 +31,49 @@ def show_main_menu():
     while True:
         event, values = window.read()
 
+        if os.path.exists("Transactions_data.csv") and os.path.exists("Categories_list.csv"):
+            Data.import_category_list()
+            Data.import_csv()
+            window["table"].update(values=table_rows)
+
         if event == sg.WIN_CLOSED:
+            Data.write_csv(table_rows)
+            Data.write_category_list(category_list)
             break
 
-        if event == "REGISTER NEW TRANSACTION":
-            show_add_transaction_interface(entities_table,table_rows)
+        if event == "ADD OUTCOME":
+            if not category_list:
+                sg.popup("CANNOT ADD TRANSACTION\n NO CATEGORIES AVAILABLE")
+                continue
+            show_add_transaction_interface("OUTCOME", table_rows, category_list)
             window["table"].update(values=table_rows)
-
-        if event == "save":
             Data.write_csv(table_rows)
 
-        if event == "import":
-            table_rows = Data.import_csv()
+        if event == "ADD INCOME":
+            if not category_list:
+                sg.popup("CANNOT ADD TRANSACTION\n NO CATEGORIES AVAILABLE")
+                continue
+            show_add_transaction_interface("INCOME", table_rows, category_list)
             window["table"].update(values=table_rows)
+            Data.write_csv(table_rows)
+
+        if event == "ADD CATEGORY":
+            show_create_category_interface(category_list)
+            Data.write_category_list(category_list)
+            print(category_list)
+
+        # if event == "save":
+        #     Data.write_csv(table_rows)
+
+        # if event == "import":
+        #     table_rows = Data.import_csv("Transactions_data.csv")
+        #     window["table"].update(values=table_rows)
+        #     category_list = Data.import_csv("Categories_list.csv")
 
     window.close()
 
 
-def show_create_category_interface():
-    category_list = []
+def show_create_category_interface(category_list):
     layout = [
         [sg.Text("Title")], [sg.Input(key="title")],
 
@@ -68,24 +92,17 @@ def show_create_category_interface():
             sg.popup("Category Added")
             window.close()
             break
-    return category_list
 
 
 
-def show_add_transaction_interface(entities_table, table_rows):
-    category_list = []
+def show_add_transaction_interface(transaction_type, table_rows, category_list):
     layout = [
-        [sg.Text("Transaction Type")],
-
-        [sg.Combo(["Income" , "Outcome"], key="types", size=(10, 10), enable_events=True)],
 
         [sg.Text("Title")], [sg.Input(key="title")],
         [sg.Text("Amount")], [sg.Input(key="amount")],
 
         [sg.Text("Category")],
         [sg.Combo(category_list, key="category_list", size=(25, 25))],
-
-        [sg.Button("Add category", key="Add")],
 
         [sg.CalendarButton("Select Date", target="date", format="%d/%m/%Y")],
 
@@ -99,18 +116,21 @@ def show_add_transaction_interface(entities_table, table_rows):
     while True:
         event, values = window.read()
 
+        window["category_list"].update(values= category_list)
+
         if event == sg.WIN_CLOSED or event == "Cancel":
             break
 
-        if event == "Add":
-            category_list = show_create_category_interface()
-            window["category_list"].update(values=category_list)
-
         if event == "Accept":
-            if not values["title"] or not values["amount"] or not values["category_list"]:
+            if not values["title"] or not values["amount"]:
                 sg.popup("CANNOT LEAVE ANY BLANK SPACES")
-            else:
-                entity.get_transaction(entities_table, table_rows, values)
+                continue
+            elif transaction_type == "INCOME":
+                entity.get_income(table_rows, values)
+                sg.popup("Transaction Added")
+                break
+            elif transaction_type == "OUTCOME":
+                entity.get_outcome(table_rows, values)
                 sg.popup("Transaction Added")
                 break
     window.close()
