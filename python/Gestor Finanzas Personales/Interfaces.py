@@ -1,9 +1,10 @@
 import FreeSimpleGUI as sg
+import LogicManagement 
 import Entities as entity
 import Data
 import os
 def show_main_menu():
-    changes_made = False
+    manager = LogicManagement.Finance_Manager()
     category_list = []
     headings = ["Title", "Amount", "Type", "Category" , "Date"]
     table_rows = []
@@ -31,49 +32,26 @@ def show_main_menu():
     while True:
         event, values = window.read()
 
-        if os.path.exists("Transactions_data.csv") and os.path.exists("Categories_list.csv"):
-            Data.import_category_list()
-            Data.import_csv()
-            window["table"].update(values=table_rows)
+        manager.check_data(table_rows, window)
 
         if event == sg.WIN_CLOSED:
-            Data.write_csv(table_rows)
-            Data.write_category_list(category_list)
+            manager.save_data(table_rows, category_list)
             break
 
         if event == "ADD OUTCOME":
-            if not category_list:
-                sg.popup("CANNOT ADD TRANSACTION\n NO CATEGORIES AVAILABLE")
-                continue
-            show_add_transaction_interface("OUTCOME", table_rows, category_list)
-            window["table"].update(values=table_rows)
-            Data.write_csv(table_rows)
+            manager.create_transaction(category_list, table_rows, window, "OUTCOME")
 
         if event == "ADD INCOME":
-            if not category_list:
-                sg.popup("CANNOT ADD TRANSACTION\n NO CATEGORIES AVAILABLE")
-                continue
-            show_add_transaction_interface("INCOME", table_rows, category_list)
-            window["table"].update(values=table_rows)
-            Data.write_csv(table_rows)
+            manager.create_transaction(category_list, table_rows, window, "INCOME")
 
         if event == "ADD CATEGORY":
-            show_create_category_interface(category_list)
-            Data.write_category_list(category_list)
-            print(category_list)
-
-        # if event == "save":
-        #     Data.write_csv(table_rows)
-
-        # if event == "import":
-        #     table_rows = Data.import_csv("Transactions_data.csv")
-        #     window["table"].update(values=table_rows)
-        #     category_list = Data.import_csv("Categories_list.csv")
+            manager.show_category_interface(category_list)
 
     window.close()
 
 
 def show_create_category_interface(category_list):
+    manager = LogicManagement.Finance_Manager()
     layout = [
         [sg.Text("Title")], [sg.Input(key="title")],
 
@@ -88,7 +66,7 @@ def show_create_category_interface(category_list):
             break
 
         if event == "Add":
-            entity.get_category(category_list, values["title"])
+            manager.get_category(category_list, values["title"])
             sg.popup("Category Added")
             window.close()
             break
@@ -96,6 +74,7 @@ def show_create_category_interface(category_list):
 
 
 def show_add_transaction_interface(transaction_type, table_rows, category_list):
+    manager = LogicManagement.Finance_Manager()
     layout = [
 
         [sg.Text("Title")], [sg.Input(key="title")],
@@ -125,12 +104,14 @@ def show_add_transaction_interface(transaction_type, table_rows, category_list):
             if not values["title"] or not values["amount"]:
                 sg.popup("CANNOT LEAVE ANY BLANK SPACES")
                 continue
-            elif transaction_type == "INCOME":
-                entity.get_income(table_rows, values)
+
+            if transaction_type == "INCOME":
+                manager.add_income(table_rows, values)
                 sg.popup("Transaction Added")
                 break
-            elif transaction_type == "OUTCOME":
-                entity.get_outcome(table_rows, values)
+
+            if transaction_type == "OUTCOME":
+                manager.add_outcome(table_rows, values)
                 sg.popup("Transaction Added")
                 break
     window.close()
