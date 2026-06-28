@@ -39,10 +39,16 @@ def show_main_menu():
             break
 
         if event == "ADD OUTCOME":
-            manager.create_transaction(category_list, table_rows, window, "OUTCOME")
+            if not category_list:
+                sg.popup("CANNOT ADD TRANSACTION\n NO CATEGORIES AVAILABLE")
+                continue
+            show_add_transaction_interface("OUTCOME", category_list, table_rows, window, values)
 
         if event == "ADD INCOME":
-            manager.create_transaction(category_list, table_rows, window, "INCOME")
+            if not category_list:
+                sg.popup("CANNOT ADD TRANSACTION\n NO CATEGORIES AVAILABLE")
+                continue
+            show_add_transaction_interface("INCOME", category_list, table_rows, window, values)
 
         if event == "ADD CATEGORY":
             manager.show_category_interface(category_list)
@@ -73,7 +79,7 @@ def show_create_category_interface(category_list):
 
 
 
-def show_add_transaction_interface(transaction_type, table_rows, category_list):
+def show_add_transaction_interface(transaction_type, category_list, table_rows, window, values):
     manager = LogicManagement.Finance_Manager()
     layout = [
 
@@ -105,13 +111,6 @@ def show_add_transaction_interface(transaction_type, table_rows, category_list):
                 sg.popup("CANNOT LEAVE ANY BLANK SPACES")
                 continue
 
-            if transaction_type == "INCOME":
-                manager.add_income(table_rows, values)
-                sg.popup("Transaction Added")
-                break
+        manager.create_transaction(transaction_type, table_rows, category_list, window, values)
 
-            if transaction_type == "OUTCOME":
-                manager.add_outcome(table_rows, values)
-                sg.popup("Transaction Added")
-                break
     window.close()
