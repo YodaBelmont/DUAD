@@ -1,18 +1,20 @@
 import FreeSimpleGUI as sg
 import LogicManagement 
-import Entities as entity
+import Entities
 import Data
 import os
+
+
+manager = LogicManagement.Finance_Manager()
+
+
 def show_main_menu():
-    manager = LogicManagement.Finance_Manager()
-    category_list = []
-    headings = ["Title", "Amount", "Type", "Category" , "Date"]
-    table_rows = []
+    manager.check_data()
     layout = [
         [sg.Text("-" * 6), sg.Text("FINANCE SYSTEM MANAGEMENT"), sg.Text("-" * 6)],
         [sg.Table(
-            values=table_rows,
-            headings=headings,
+            values=manager.table_rows,
+            headings=["Title", "Amount", "Type", "Category" , "Date"],
             auto_size_columns=False,
             num_rows=4,
             key="table",
@@ -27,37 +29,36 @@ def show_main_menu():
 
         ]
 
-    window = sg.Window("FINANCE MANAGEMENT", layout, size=(500,500))
-
+    main_window = sg.Window("FINANCE MANAGEMENT", layout, size=(500,500))
     while True:
-        event, values = window.read()
+        event, values = main_window.read()
 
-        manager.check_data(table_rows, window)
+        #main_window["table"].update(values=manager.table_rows)
 
         if event == sg.WIN_CLOSED:
-            manager.save_data(table_rows, category_list)
+            manager.save_data()
             break
 
         if event == "ADD OUTCOME":
-            if not category_list:
-                sg.popup("CANNOT ADD TRANSACTION\n NO CATEGORIES AVAILABLE")
-                continue
-            show_add_transaction_interface("OUTCOME", category_list, table_rows, window, values)
+            if manager.has_categories():
+                show_add_transaction_interface("OUTCOME", main_window)
+            else:
+                sg.popup("NO CATEGORIES AVAILABLE")
 
         if event == "ADD INCOME":
-            if not category_list:
-                sg.popup("CANNOT ADD TRANSACTION\n NO CATEGORIES AVAILABLE")
-                continue
-            show_add_transaction_interface("INCOME", category_list, table_rows, window, values)
+            if manager.has_categories():
+                show_add_transaction_interface("INCOME", main_window)
+            else:
+                sg.popup("NO CATEGORIES AVAILABLE")
+
 
         if event == "ADD CATEGORY":
-            manager.show_category_interface(category_list)
+            show_create_category_interface()
 
-    window.close()
+    main_window.close()
 
 
-def show_create_category_interface(category_list):
-    manager = LogicManagement.Finance_Manager()
+def show_create_category_interface():
     layout = [
         [sg.Text("Title")], [sg.Input(key="title")],
 
@@ -72,22 +73,20 @@ def show_create_category_interface(category_list):
             break
 
         if event == "Add":
-            manager.get_category(category_list, values["title"])
+            manager.get_category(values["title"])
             sg.popup("Category Added")
             window.close()
             break
 
 
-
-def show_add_transaction_interface(transaction_type, category_list, table_rows, window, values):
-    manager = LogicManagement.Finance_Manager()
+def show_add_transaction_interface(transaction_type, main_window):
     layout = [
 
         [sg.Text("Title")], [sg.Input(key="title")],
         [sg.Text("Amount")], [sg.Input(key="amount")],
 
         [sg.Text("Category")],
-        [sg.Combo(category_list, key="category_list", size=(25, 25))],
+        [sg.Combo(manager.categories, key="category_list", size=(25, 25))],
 
         [sg.CalendarButton("Select Date", target="date", format="%d/%m/%Y")],
 
@@ -96,12 +95,11 @@ def show_add_transaction_interface(transaction_type, category_list, table_rows, 
         [sg.Button("Accept"), sg.Button("Cancel")],
     ]
 
-    window = sg.Window("ADD TRANSACTION", layout, size=(500, 500))
-
+    transactions_window = sg.Window("ADD TRANSACTION", layout, size=(500, 500))
     while True:
-        event, values = window.read()
+        event, values = transactions_window.read()
 
-        window["category_list"].update(values= category_list)
+        transactions_window["category_list"].update(values= manager.categories)
 
         if event == sg.WIN_CLOSED or event == "Cancel":
             break
@@ -110,7 +108,8 @@ def show_add_transaction_interface(transaction_type, category_list, table_rows, 
             if not values["title"] or not values["amount"]:
                 sg.popup("CANNOT LEAVE ANY BLANK SPACES")
                 continue
+            manager.create_transaction(transaction_type, values)
+            main_window["table"].update(values=manager.table_rows)
+            break
 
-        manager.create_transaction(transaction_type, table_rows, category_list, window, values)
-
-    window.close()
+    transactions_window.close()
