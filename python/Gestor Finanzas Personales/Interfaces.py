@@ -1,9 +1,6 @@
 import FreeSimpleGUI as sg
 import LogicManagement 
-import Entities
 import Data
-import os
-
 
 manager = LogicManagement.Finance_Manager()
 
@@ -11,7 +8,7 @@ manager = LogicManagement.Finance_Manager()
 def show_main_menu():
     manager.check_data()
     layout = [
-        [sg.Text("-" * 6), sg.Text("FINANCE SYSTEM MANAGEMENT"), sg.Text("-" * 6)],
+        [sg.Text("-" * 6), sg.Text("FINANCE MANAGEMENT SYSTEM"), sg.Text("-" * 6)],
         [sg.Table(
             values=manager.table_rows,
             headings=["Title", "Amount", "Type", "Category" , "Date"],
@@ -27,13 +24,17 @@ def show_main_menu():
 
         [sg.Button("ADD OUTCOME")],
 
+        [sg.Text("FILTER FROM: "), sg.Input(key="start_date", size=(10,1)), sg.CalendarButton("Select Date", target="start_date", format="%d/%m/%Y")],
+
+
+        [sg.Text("TO: "), sg.Input(key="end_date", size=(10,1)), sg.CalendarButton("Select Date", target="end_date", format="%d/%m/%Y")],
+        [sg.Button("FILTER")], [sg.Button("RESET FILTER"), sg.Button("GENERATE REPORT")]
+        
         ]
 
-    main_window = sg.Window("FINANCE MANAGEMENT", layout, size=(500,500))
+    main_window = sg.Window("FINANCE MANAGEMENT", layout, size=(700,700))
     while True:
         event, values = main_window.read()
-
-        #main_window["table"].update(values=manager.table_rows)
 
         if event == sg.WIN_CLOSED:
             manager.save_data()
@@ -51,9 +52,21 @@ def show_main_menu():
             else:
                 sg.popup("NO CATEGORIES AVAILABLE")
 
-
         if event == "ADD CATEGORY":
             show_create_category_interface()
+        
+        if event == "FILTER":
+            if not manager.validate_date(values["start_date"]) or not manager.validate_date(values["end_date"]):
+                sg.popup("ENTER A VALID DATE")
+                continue
+            filtered = manager.filter_table(values["start_date"], values["end_date"])
+            main_window["table"].update(values=[transaction.to_row for transaction in filtered])
+        
+        if event == "RESET FILTER":
+            main_window["table"].update(values= manager.table_rows)
+        
+        if event == "GENERATE REPORT":
+            Data.generate_report(manager.table_rows, manager.transactions)
 
     main_window.close()
 
@@ -105,8 +118,14 @@ def show_add_transaction_interface(transaction_type, main_window):
             break
 
         if event == "Accept":
-            if not values["title"] or not values["amount"]:
+            if not manager.check_values(values):
                 sg.popup("CANNOT LEAVE ANY BLANK SPACES")
+                continue
+            if not manager.to_float(values["amount"]):
+                sg.popup("AMOUNT MUST BE A NUMBER")
+                continue
+            if not manager.validate_date(values["date"]):
+                sg.popup("ENTER A VALID DATE")
                 continue
             manager.create_transaction(transaction_type, values)
             main_window["table"].update(values=manager.table_rows)

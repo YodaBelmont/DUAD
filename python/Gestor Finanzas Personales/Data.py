@@ -44,3 +44,28 @@ def import_category_list(categories):
                         return categories
         except Exception as error:
                 print(f"ERROR {error}")
+
+
+def generate_report(rows, transactions):
+        if not rows:
+                return print("NO INFO")
+        try:
+                total_income = 0
+                total_outcome = 0
+                for transaction in transactions:
+                        if transaction.transaction_type == "INCOME":
+                                total_income += transaction.amount
+                                continue
+                        total_outcome += transaction.amount
+                        
+                with open("Report.csv", "w" , encoding="utf-8", newline="") as file:
+                        writer = csv.writer(file)
+                        writer.writerow(("Title", "Amount", "Type", "Category" , "Date"))
+                        writer.writerows(rows)
+                        
+                        writer.writerow(["\nTRANSACTIONS"])
+                        writer.writerow([f"TOTAL INCOME: {total_income}"])
+                        writer.writerow([f"TOTAL OUTCOME: {total_outcome}"])
+                        writer.writerow([f"OVERALL TOTAL: {total_income+total_outcome}"])
+        except Exception as error:
+                print(error)
