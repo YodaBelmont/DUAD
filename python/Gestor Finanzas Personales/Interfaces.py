@@ -15,6 +15,7 @@ def show_main_menu():
             auto_size_columns=False,
             num_rows=4,
             key="table",
+            row_colors=manager.color_rows(),
             enable_events=True,
             justification="left",
             size=(100, 10))],
@@ -63,7 +64,7 @@ def show_main_menu():
             main_window["table"].update(values=[transaction.to_row for transaction in filtered])
         
         if event == "RESET FILTER":
-            main_window["table"].update(values= manager.table_rows)
+            main_window["table"].update(values= manager.table_rows, row_colors=manager.color_rows())
         
         if event == "GENERATE REPORT":
             Data.generate_report(manager.table_rows, manager.transactions)
@@ -74,7 +75,7 @@ def show_main_menu():
 def show_create_category_interface():
     layout = [
         [sg.Text("Title")], [sg.Input(key="title")],
-
+        [sg.ColorChooserButton("Color: ",target="color"), sg.Input(key="color", size=(10,1))],
         [sg.Button("Add")],
     ]
 
@@ -86,7 +87,7 @@ def show_create_category_interface():
             break
 
         if event == "Add":
-            manager.get_category(values["title"])
+            manager.get_category(values["title"], values["color"])
             sg.popup("Category Added")
             window.close()
             break
@@ -99,7 +100,7 @@ def show_add_transaction_interface(transaction_type, main_window):
         [sg.Text("Amount")], [sg.Input(key="amount")],
 
         [sg.Text("Category")],
-        [sg.Combo(manager.categories, key="category_list", size=(25, 25))],
+        [sg.Combo(manager.category_names, key="category_list", size=(25, 25))],
 
         [sg.CalendarButton("Select Date", target="date", format="%d/%m/%Y")],
 
@@ -112,7 +113,7 @@ def show_add_transaction_interface(transaction_type, main_window):
     while True:
         event, values = transactions_window.read()
 
-        transactions_window["category_list"].update(values= manager.categories)
+        transactions_window["category_list"].update(values= manager.category_names)
 
         if event == sg.WIN_CLOSED or event == "Cancel":
             break
@@ -128,7 +129,7 @@ def show_add_transaction_interface(transaction_type, main_window):
                 sg.popup("ENTER A VALID DATE")
                 continue
             manager.create_transaction(transaction_type, values)
-            main_window["table"].update(values=manager.table_rows)
+            main_window["table"].update(values=manager.table_rows, row_colors=manager.color_rows())
             break
 
     transactions_window.close()

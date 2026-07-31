@@ -28,20 +28,22 @@ def write_category_list(categories):
         if not categories:
                 return print("THERE IS NO DATA TO SAVE")
         try:
-                with open("Categories_list.txt", "w", encoding="utf-8") as file:
+                with open("Categories_list.csv", "w", encoding="utf-8", newline="") as file:
+                        writer = csv.writer(file)
                         for category in categories:
-                                file.write(category + "\n")
+                                writer.writerow([category.category, category.color])
         except Exception as error:
                 print(f"ERROR {error}")
 
 
-def import_category_list(categories):
+def import_category_list(rows):
         try:
-                categories.clear()
-                with open("Categories_list.txt", "r", encoding="utf-8") as file:
-                        for line in file:
-                                categories.append(line.strip())
-                        return categories
+                rows.clear()
+                with open("Categories_list.csv", "r", encoding="utf-8", newline="") as file:
+                        reader = csv.reader(file)
+                        for row in reader:
+                                rows.append(row)
+                        return rows
         except Exception as error:
                 print(f"ERROR {error}")
 

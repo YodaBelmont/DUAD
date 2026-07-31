@@ -1,8 +1,9 @@
 from datetime import datetime
 
 class Category():
-    def __init__(self, category):
+    def __init__(self, category, color):
         self.category = category
+        self.color = color
     
     
     def get_category(self):
@@ -22,7 +23,7 @@ class Transaction():
         return [self.title, 
                 self.amount,
                 self.transaction_type,
-                self.category,
+                self.category.category,
                 self.date.strftime("%d/%m/%Y")]
 
 

@@ -9,36 +9,62 @@ class Finance_Manager():
     def __init__(self):
         self.categories = []
         self.transactions = []
-    
-    
+
+
     @property
     def table_rows(self):
         return [transaction.to_row() for transaction in self.transactions]
-    
-    
+
+
+    @property
+    def category_names(self):
+        return [category.category for category in self.categories]
+
+
     def check_data(self):
-        if os.path.exists("Transactions_data.csv"):
+        if os.path.exists("Categories_list.csv"):
 
-            rows = Data.import_csv([])
+            rows = Data.import_category_list([])
 
-            self.transactions.clear()
+            self.categories.clear()
 
             for row in rows:
-                transaction = entity.Transaction(
+                category = entity.Category(
                     row[0],
-                    row[1],
-                    row[2],
-                    row[3],
-                    row[4]
+                    row[1]
                 )
 
-                self.transactions.append(transaction)
+            self.categories.append(category)
 
-            print("Transactions updated")
-
-        if os.path.exists("Categories_list.txt"):
-            self.categories = Data.import_category_list(self.categories)
             print("Category list updated")
+
+        if os.path.exists("Transactions_data.csv"):
+
+                    rows = Data.import_csv([])
+        
+                    self.transactions.clear()
+        
+                    for row in rows:
+
+                        selected_category = None
+
+                        for category in self.categories:
+                            if category.category == row[3]:
+                                selected_category = category
+                            break
+
+
+                        transaction = entity.Transaction(
+                            row[0],
+                            row[1],
+                            row[2],
+                            selected_category,
+                            row[4]
+                        )
+        
+                        self.transactions.append(transaction)
+        
+                    print("Transactions updated")
     
     
     def save_data(self):
@@ -47,7 +73,14 @@ class Finance_Manager():
     
     
     def create_transaction(self, transaction_type, values):
-        transaction = entity.Transaction(values["title"], values["amount"], transaction_type, values["category_list"], values["date"])
+        transaction_category = None
+        
+        for category in self.categories:
+            if category.category == values["category_list"]:
+                transaction_category = category
+                break
+
+        transaction = entity.Transaction(values["title"], values["amount"], transaction_type, transaction_category, values["date"])
         self.transactions.append(transaction)
         Data.write_csv(self.table_rows)
     
@@ -57,10 +90,8 @@ class Finance_Manager():
     
     
     def get_category(self,title, color):
-        category1 = entity.Category(title)
-        dict1 = {"CATEGORY": category1,
-                "COLOR":color}
-        self.categories.append(category1.get_category())
+        category1 = entity.Category(title, color)
+        self.categories.append(category1)
         Data.write_category_list(self.categories)
     
     
@@ -100,3 +131,10 @@ class Finance_Manager():
             if start_date <= transaction.date <= end_date:
                 new_table.append(transaction)
         return new_table
+    
+    
+    def color_rows(self):
+        row_colors = []
+        for index, transactions in enumerate(self.transactions):
+            row_colors.append((index,"white",transactions.category.color))
+        return row_colors
