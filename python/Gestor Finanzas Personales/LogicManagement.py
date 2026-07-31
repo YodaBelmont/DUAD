@@ -34,9 +34,10 @@ class Finance_Manager():
                     row[1]
                 )
 
-            self.categories.append(category)
+                self.categories.append(category)
 
             print("Category list updated")
+            print(len(self.categories))
 
         if os.path.exists("Transactions_data.csv"):
 
@@ -51,7 +52,7 @@ class Finance_Manager():
                         for category in self.categories:
                             if category.category == row[3]:
                                 selected_category = category
-                            break
+                                break
 
 
                         transaction = entity.Transaction(
@@ -127,14 +128,14 @@ class Finance_Manager():
         
         new_table = []
         
-        for transaction in self.table_rows:
+        for transaction in self.transactions:
             if start_date <= transaction.date <= end_date:
                 new_table.append(transaction)
         return new_table
     
     
-    def color_rows(self):
+    def color_rows(self, rows):
         row_colors = []
-        for index, transactions in enumerate(self.transactions):
+        for index, transactions in enumerate(rows):
             row_colors.append((index,"white",transactions.category.color))
         return row_colors

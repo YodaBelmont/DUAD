@@ -15,7 +15,7 @@ def show_main_menu():
             auto_size_columns=False,
             num_rows=4,
             key="table",
-            row_colors=manager.color_rows(),
+            row_colors=manager.color_rows(manager.transactions),
             enable_events=True,
             justification="left",
             size=(100, 10))],
@@ -61,10 +61,10 @@ def show_main_menu():
                 sg.popup("ENTER A VALID DATE")
                 continue
             filtered = manager.filter_table(values["start_date"], values["end_date"])
-            main_window["table"].update(values=[transaction.to_row for transaction in filtered])
+            main_window["table"].update(values=[transaction.to_row() for transaction in filtered], row_colors=manager.color_rows(filtered))
         
         if event == "RESET FILTER":
-            main_window["table"].update(values= manager.table_rows, row_colors=manager.color_rows())
+            main_window["table"].update(values= manager.table_rows, row_colors=manager.color_rows(manager.transactions))
         
         if event == "GENERATE REPORT":
             Data.generate_report(manager.table_rows, manager.transactions)
@@ -129,7 +129,7 @@ def show_add_transaction_interface(transaction_type, main_window):
                 sg.popup("ENTER A VALID DATE")
                 continue
             manager.create_transaction(transaction_type, values)
-            main_window["table"].update(values=manager.table_rows, row_colors=manager.color_rows())
+            main_window["table"].update(values=manager.table_rows, row_colors=manager.color_rows(manager.transactions))
             break
 
     transactions_window.close()
