@@ -23,49 +23,34 @@ class Finance_Manager():
 
     def check_data(self):
         if os.path.exists("Categories_list.csv"):
-
             rows = Data.import_category_list([])
-
             self.categories.clear()
-
             for row in rows:
                 category = entity.Category(
                     row[0],
                     row[1]
                 )
-
                 self.categories.append(category)
-
             print("Category list updated")
             print(len(self.categories))
-
         if os.path.exists("Transactions_data.csv"):
-
-                    rows = Data.import_csv([])
-        
-                    self.transactions.clear()
-        
-                    for row in rows:
-
-                        selected_category = None
-
-                        for category in self.categories:
-                            if category.category == row[3]:
-                                selected_category = category
-                                break
-
-
-                        transaction = entity.Transaction(
-                            row[0],
-                            row[1],
-                            row[2],
-                            selected_category,
-                            row[4]
-                        )
-        
-                        self.transactions.append(transaction)
-        
-                    print("Transactions updated")
+            rows = Data.import_csv([])
+            self.transactions.clear()
+            for row in rows:
+                selected_category = None
+                for category in self.categories:
+                    if category.category == row[3]:
+                        selected_category = category
+                        break
+                transaction = entity.Transaction(
+                    row[0],
+                    row[1],
+                    row[2],
+                    selected_category,
+                    row[4]
+                )
+                self.transactions.append(transaction)
+            print("Transactions updated")
     
     
     def save_data(self):

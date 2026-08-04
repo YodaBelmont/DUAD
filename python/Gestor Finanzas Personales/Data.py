@@ -68,6 +68,7 @@ def generate_report(rows, transactions):
                         writer.writerow(["\nTRANSACTIONS"])
                         writer.writerow([f"TOTAL INCOME: {total_income}"])
                         writer.writerow([f"TOTAL OUTCOME: {total_outcome}"])
-                        writer.writerow([f"OVERALL TOTAL: {total_income+total_outcome}"])
+                        writer.writerow([f"OVERALL TOTAL: {total_income-total_outcome}"])
+                        print("Transactions report created")
         except Exception as error:
                 print(error)

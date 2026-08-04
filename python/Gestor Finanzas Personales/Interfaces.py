@@ -2,10 +2,8 @@ import FreeSimpleGUI as sg
 import LogicManagement 
 import Data
 
-manager = LogicManagement.Finance_Manager()
 
-
-def show_main_menu():
+def show_main_menu(manager):
     manager.check_data()
     layout = [
         [sg.Text("-" * 6), sg.Text("FINANCE MANAGEMENT SYSTEM"), sg.Text("-" * 6)],
@@ -30,7 +28,6 @@ def show_main_menu():
 
         [sg.Text("TO: "), sg.Input(key="end_date", size=(10,1)), sg.CalendarButton("Select Date", target="end_date", format="%d/%m/%Y")],
         [sg.Button("FILTER")], [sg.Button("RESET FILTER"), sg.Button("GENERATE REPORT")]
-        
         ]
 
     main_window = sg.Window("FINANCE MANAGEMENT", layout, size=(700,700))
@@ -42,29 +39,19 @@ def show_main_menu():
             break
 
         if event == "ADD OUTCOME":
-            if manager.has_categories():
-                show_add_transaction_interface("OUTCOME", main_window)
-            else:
-                sg.popup("NO CATEGORIES AVAILABLE")
+            handle_outcome(main_window, manager)
 
         if event == "ADD INCOME":
-            if manager.has_categories():
-                show_add_transaction_interface("INCOME", main_window)
-            else:
-                sg.popup("NO CATEGORIES AVAILABLE")
+            handle_income(main_window, manager)
 
         if event == "ADD CATEGORY":
-            show_create_category_interface()
+            show_create_category_interface(manager)
         
         if event == "FILTER":
-            if not manager.validate_date(values["start_date"]) or not manager.validate_date(values["end_date"]):
-                sg.popup("ENTER A VALID DATE")
-                continue
-            filtered = manager.filter_table(values["start_date"], values["end_date"])
-            main_window["table"].update(values=[transaction.to_row() for transaction in filtered], row_colors=manager.color_rows(filtered))
+            handle_filter(values, main_window, manager)
         
         if event == "RESET FILTER":
-            main_window["table"].update(values= manager.table_rows, row_colors=manager.color_rows(manager.transactions))
+            reset_filter(main_window, manager)
         
         if event == "GENERATE REPORT":
             Data.generate_report(manager.table_rows, manager.transactions)
@@ -72,7 +59,7 @@ def show_main_menu():
     main_window.close()
 
 
-def show_create_category_interface():
+def show_create_category_interface(manager):
     layout = [
         [sg.Text("Title")], [sg.Input(key="title")],
         [sg.ColorChooserButton("Color: ",target="color"), sg.Input(key="color", size=(10,1))],
@@ -93,7 +80,7 @@ def show_create_category_interface():
             break
 
 
-def show_add_transaction_interface(transaction_type, main_window):
+def show_add_transaction_interface(transaction_type, main_window, manager):
     layout = [
 
         [sg.Text("Title")], [sg.Input(key="title")],
@@ -133,3 +120,29 @@ def show_add_transaction_interface(transaction_type, main_window):
             break
 
     transactions_window.close()
+
+
+def handle_income(main_window, manager):
+    if manager.has_categories():
+        show_add_transaction_interface("INCOME", main_window, manager)
+    else:
+        sg.popup("NO CATEGORIES AVAILABLE")
+
+
+def handle_outcome(main_window, manager):
+    if manager.has_categories():
+        show_add_transaction_interface("OUTCOME", main_window, manager)
+    else:
+        sg.popup("NO CATEGORIES AVAILABLE")
+
+
+def handle_filter(values, main_window, manager):
+    if not manager.validate_date(values["start_date"]) or not manager.validate_date(values["end_date"]):
+        sg.popup("ENTER A VALID DATE")
+        return
+    filtered = manager.filter_table(values["start_date"], values["end_date"])
+    main_window["table"].update(values=[transaction.to_row() for transaction in filtered], row_colors=manager.color_rows(filtered))
+
+
+def reset_filter(main_window, manager):
+    main_window["table"].update(values= manager.table_rows, row_colors=manager.color_rows(manager.transactions))
