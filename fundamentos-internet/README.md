@@ -3,7 +3,9 @@
 ## 1. Del Cliente al Servidor
 
 El cliente busca la direccion ip asociada al dominio que estamos buscando
-Se conecta al servidor DNS para obtener esa ip
+Antes de conectarse con el servidor DNS el navegador consulta el caché del propio navegador por la ip
+En caso de no encontrarla le pide al sistema operativo que resuelva la ip buscando en su propio caché
+Y si ninguna de las opciones anteriores funciona entonces ahora es cuando se conecta al servidor DNS para obtener esa ip
 El DNS funciona como un traductor o interprete que tiene las direcciones ip mas conocidas
 utilizando nuestra busqueda para averiguar cual ip es la que buscamos
 Ya con la ip el navegador se conecta al servidor correcto y envia una request usando el protocolo http con GET como metodo
@@ -37,11 +39,11 @@ El BackEnd devuelve la response al FrontEnd para que reciba los datos
 
 ## 3. REST vs SOAP vs GraphQL
 
-|Tipo de API  |Formato de datos usado  |Nivel de flexibilidad        |Dificultad de implementación      |Uso actual (Alta / Media / Baja)   |
-|-------------|------------------------|-----------------------------|----------------------------------|-----------------------------------|
-|REST         |JSON                    |El servidor-Flexibilidad Alta|Baja dificultad de implementacion |Alta                               |
-|SOAP         |XML                     |El servidor-Flexibilidad Baja|Alta dificultad de implementacion |Media-Baja                         |
-|GraphQL      |JSON                    |El cliente-Flexibilidad Alta |Media dificultad de implementacion|Alta                               |
+|Tipo de API|Formato de datos usado|Nivel de flexibilidad         |Dificultad de implementación      |Uso actual (Alta / Media / Baja)   |
+|-----------|----------------------|------------------------------|----------------------------------|-----------------------------------|
+|REST       |JSON                  |El servidor-Flexibilidad Media|Baja dificultad de implementacion |Alta                               |
+|SOAP       |XML                   |El servidor-Flexibilidad Baja |Alta dificultad de implementacion |Media-Baja                         |
+|GraphQL    |JSON                  |El cliente-Flexibilidad Alta  |Media dificultad de implementacion|Alta                               |
 
 **¿Cuál es más apropiada para una startup moderna? ¿Por qué?**
 
