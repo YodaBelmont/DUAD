@@ -1,0 +1,369 @@
+{
+  "info": {
+    "_postman_id": "337ed6d1-957a-4d4f-977f-5110593c0193",
+    "name": "Restful-api.dev",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45675741"
+  },
+  "item": [
+    {
+      "name": "Get Items",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": [
+        {
+          "name": "Get Items",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.restful-api.dev/objects",
+              "protocol": "https",
+              "host": [
+                "api",
+                "restful-api",
+                "dev"
+              ],
+              "path": [
+                "objects"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": ":status",
+              "value": 200
+            },
+            {
+              "key": "date",
+              "value": "Tue, 25 Aug 2026 19:30:52 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json;charset=UTF-8"
+            },
+            {
+              "key": "server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"
+            },
+            {
+              "key": "vary",
+              "value": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "1; mode=block"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "expires",
+              "value": "0"
+            },
+            {
+              "key": "x-frame-options",
+              "value": "DENY"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=iqwDxIC7rzhhitHOfS3vTMkhe9Djc%2FtWNKrJhPI7xu4t1qko0rhR5UY3rQ40l2KPCuN%2BejJAWl5G88Xp4kYUTDyibB9ABbvAgvOtYz1Tc%2FrnSBIqu%2F8JpmWowCbufH9kcdzZ%2Bo5u\"}]}"
+            },
+            {
+              "key": "content-encoding",
+              "value": "br"
+            },
+            {
+              "key": "cf-ray",
+              "value": "a30d03873a36f303-MIA"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": \"1\",\n        \"name\": \"Google Pixel 6 Pro\",\n        \"data\": {\n            \"color\": \"Cloudy White\",\n            \"capacity\": \"128 GB\"\n        }\n    },\n    {\n        \"id\": \"2\",\n        \"name\": \"Apple iPhone 12 Mini, 256GB, Blue\",\n        \"data\": null\n    },\n    {\n        \"id\": \"3\",\n        \"name\": \"Apple iPhone 12 Pro Max\",\n        \"data\": {\n            \"color\": \"Cloudy White\",\n            \"capacity GB\": 512\n        }\n    },\n    {\n        \"id\": \"4\",\n        \"name\": \"Apple iPhone 11, 64GB\",\n        \"data\": {\n            \"price\": 389.99,\n            \"color\": \"Purple\"\n        }\n    },\n    {\n        \"id\": \"5\",\n        \"name\": \"Samsung Galaxy Z Fold2\",\n        \"data\": {\n            \"price\": 689.99,\n            \"color\": \"Brown\"\n        }\n    },\n    {\n        \"id\": \"6\",\n        \"name\": \"Apple AirPods\",\n        \"data\": {\n            \"generation\": \"3rd\",\n            \"price\": 120\n        }\n    },\n    {\n        \"id\": \"7\",\n        \"name\": \"Apple MacBook Pro 16\",\n        \"data\": {\n            \"year\": 2019,\n            \"price\": 1849.99,\n            \"CPU model\": \"Intel Core i9\",\n            \"Hard disk size\": \"1 TB\"\n        }\n    },\n    {\n        \"id\": \"8\",\n        \"name\": \"Apple Watch Series 8\",\n        \"data\": {\n            \"Strap Colour\": \"Elderberry\",\n            \"Case Size\": \"41mm\"\n        }\n    },\n    {\n        \"id\": \"9\",\n        \"name\": \"Beats Studio3 Wireless\",\n        \"data\": {\n            \"Color\": \"Red\",\n            \"Description\": \"High-performance wireless noise cancelling headphones\"\n        }\n    },\n    {\n        \"id\": \"10\",\n        \"name\": \"Apple iPad Mini 5th Gen\",\n        \"data\": {\n            \"Capacity\": \"64 GB\",\n            \"Screen size\": 7.9\n        }\n    },\n    {\n        \"id\": \"11\",\n        \"name\": \"Apple iPad Mini 5th Gen\",\n        \"data\": {\n            \"Capacity\": \"254 GB\",\n            \"Screen size\": 7.9\n        }\n    },\n    {\n        \"id\": \"12\",\n        \"name\": \"Apple iPad Air\",\n        \"data\": {\n            \"Generation\": \"4th\",\n            \"Price\": \"419.99\",\n            \"Capacity\": \"64 GB\"\n        }\n    },\n    {\n        \"id\": \"13\",\n        \"name\": \"Apple iPad Air\",\n        \"data\": {\n            \"Generation\": \"4th\",\n            \"Price\": \"519.99\",\n            \"Capacity\": \"256 GB\"\n        }\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Post Item",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Yeshua Rodriguez Valverde\",\r\n  \"data\": {\r\n    \"age\": 23\r\n  }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.restful-api.dev/objects",
+          "protocol": "https",
+          "host": [
+            "api",
+            "restful-api",
+            "dev"
+          ],
+          "path": [
+            "objects"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Post Item",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Yeshua Rodriguez Valverde\",\r\n  \"data\": {\r\n    \"age\": 23\r\n  }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://api.restful-api.dev/objects",
+              "protocol": "https",
+              "host": [
+                "api",
+                "restful-api",
+                "dev"
+              ],
+              "path": [
+                "objects"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": ":status",
+              "value": 200
+            },
+            {
+              "key": "date",
+              "value": "Tue, 25 Aug 2026 19:35:21 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json;charset=UTF-8"
+            },
+            {
+              "key": "server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"
+            },
+            {
+              "key": "vary",
+              "value": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "1; mode=block"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "expires",
+              "value": "0"
+            },
+            {
+              "key": "x-frame-options",
+              "value": "DENY"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=1Q9b1%2BW9oh%2Bk0Gz%2F3HCXFj%2FfAUBmw5sEhJX7mJUlyjbij%2B17d1hq7y5jLNVZ33%2B6ZyIee3auWv8OjBEeGvarFIHiKx4m34v7GFbU13zhzFDWhc6ujhBVBHkX%2BlHzfRHSPJfc%2BnQ1\"}]}"
+            },
+            {
+              "key": "content-encoding",
+              "value": "br"
+            },
+            {
+              "key": "cf-ray",
+              "value": "a30d0a186af0747d-MIA"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"ff8081819ff5b11001a03a6b8be72012\",\n    \"name\": \"Yeshua Rodriguez Valverde\",\n    \"createdAt\": 1787686521831,\n    \"data\": {\n        \"age\": 23\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Delete Item",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "https://api.restful-api.dev/objects/ff8081819ff5b11001a03a6b8be72012",
+          "protocol": "https",
+          "host": [
+            "api",
+            "restful-api",
+            "dev"
+          ],
+          "path": [
+            "objects",
+            "ff8081819ff5b11001a03a6b8be72012"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Delete Item",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://api.restful-api.dev/objects/ff8081819ff5b11001a03a6b8be72012",
+              "protocol": "https",
+              "host": [
+                "api",
+                "restful-api",
+                "dev"
+              ],
+              "path": [
+                "objects",
+                "ff8081819ff5b11001a03a6b8be72012"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": ":status",
+              "value": 200
+            },
+            {
+              "key": "date",
+              "value": "Tue, 25 Aug 2026 19:36:30 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json;charset=UTF-8"
+            },
+            {
+              "key": "server",
+              "value": "cloudflare"
+            },
+            {
+              "key": "nel",
+              "value": "{\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}"
+            },
+            {
+              "key": "vary",
+              "value": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "x-xss-protection",
+              "value": "1; mode=block"
+            },
+            {
+              "key": "cache-control",
+              "value": "no-cache, no-store, max-age=0, must-revalidate"
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "expires",
+              "value": "0"
+            },
+            {
+              "key": "x-frame-options",
+              "value": "DENY"
+            },
+            {
+              "key": "cf-cache-status",
+              "value": "DYNAMIC"
+            },
+            {
+              "key": "report-to",
+              "value": "{\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=HfSR5%2FSA%2FiDLOjiBR24qAx%2FF3RqUEvSSKjrZigxVYdPoIGK6bBKz8uM6fBwLpbP76OjaJ12OV%2F%2BaO%2B%2FbHvJnTmdiedMipXbhQWMt93gnGHQuCSPZYP7p8WJ4%2FQZIDdL3HJeLEDFg\"}]}"
+            },
+            {
+              "key": "content-encoding",
+              "value": "br"
+            },
+            {
+              "key": "cf-ray",
+              "value": "a30d0bc428d5747d-MIA"
+            },
+            {
+              "key": "alt-svc",
+              "value": "h3=\":443\"; ma=86400"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"message\": \"Object with id = ff8081819ff5b11001a03a6b8be72012 has been deleted.\"\n}"
+        }
+      ]
+    }
+  ]
+}
