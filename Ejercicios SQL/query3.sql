@@ -60,6 +60,42 @@
 -- INSERT INTO products_per_invoice(id, quantity, total_amount, id_product, id_invoice)
 -- VALUES(9, 1, 90, 7, 1004);
 
+-- UPDATE products_per_invoice
+-- SET quantity = 3
+-- WHERE id = 1;
+
+-- UPDATE products_per_invoice
+-- SET quantity = 2
+-- WHERE id = 2;
+
+-- UPDATE products_per_invoice
+-- SET quantity = 4
+-- WHERE id = 3;
+
+-- UPDATE products_per_invoice
+-- SET quantity = 2
+-- WHERE id = 4;
+
+-- UPDATE products_per_invoice
+-- SET quantity = 3
+-- WHERE id = 5;
+
+-- UPDATE products_per_invoice
+-- SET quantity = 5
+-- WHERE id = 6;
+
+-- UPDATE products_per_invoice
+-- SET quantity = 2
+-- WHERE id = 7;
+
+-- UPDATE products_per_invoice
+-- SET quantity = 6
+-- WHERE id = 8;
+
+-- UPDATE products_per_invoice
+-- SET quantity = 1
+-- WHERE id = 9;
+
 -- INSERT INTO shopping_cart(shopping_cart_id, buyer_email)
 -- VALUES(1, 'juan@mail.com');
 
