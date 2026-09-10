@@ -1,21 +1,21 @@
 -- SELECT *
 -- FROM products;
 
--- SELECT price
+-- SELECT *
 -- FROM products
--- WHERE price < 300;
+-- WHERE price > 50000;
 
--- SELECT id_product
+-- SELECT *
 -- FROM products_per_invoice
 -- WHERE id_product = 2;
 
--- SELECT id_product, SUM(total_amount)
+-- SELECT *, total_amount * quantity AS total_sum
 -- FROM products_per_invoice
 -- GROUP BY id_product;
 
 -- SELECT *
 -- FROM invoices
--- GROUP BY buyer_email;
+-- WHERE buyer_email = 'juan@mail.com';
 
 -- SELECT *
 -- FROM invoices
@@ -23,6 +23,4 @@
 
 -- SELECT *
 -- FROM invoices
--- WHERE invoice_number = 1001;
-
-
+-- WHERE id = 1;
