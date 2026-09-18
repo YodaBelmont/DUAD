@@ -1,0 +1,9 @@
+Ejercicio 2:
+
+Cree la tabla cars para representar cada entidad vehiculo de forma individual, lo mismo con la tabla owner
+tenia planeado que fuera una relacion de 1:N ya que bajo mi razonamiento, un vehiculo solo puede estar a nombre de un dueño
+y un dueño puede tener muchos vehiculos
+Pero en el ejercicio puedo ver que hay un registro de un vehiculo que tiene dos dueños diferentes por lo que ahora
+es una relacion N:N y concluí que lo mejor era crear la tabla cruz para las relaciones N:N llamada Cars_owners
+Para los seguros entiendo que un cliente solo puede contratar a una sola compañia de seguros pero cada compañia puede
+proveer el mismo seguro a muchos clientes entonces lo defini en la tabla insurances con ownerId
