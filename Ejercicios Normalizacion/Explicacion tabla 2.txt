@@ -1,0 +1,22 @@
+Ejercicio 2:
+
+Cree la tabla cars para representar cada entidad vehiculo de forma individual, lo mismo con la tabla owner
+tenia planeado que fuera una relacion de 1:N ya que bajo mi razonamiento, un vehiculo solo puede estar a nombre de un dueño
+y un dueño puede tener muchos vehiculos
+Pero en el ejercicio puedo ver que hay un registro de un vehiculo que tiene dos dueños diferentes por lo que ahora
+es una relacion N:N y concluí que lo mejor era crear la tabla cruz para las relaciones N:N llamada Cars_owners
+Para los seguros entiendo que un cliente solo puede contratar a una sola compañia de seguros pero cada compañia puede
+proveer el mismo seguro a muchos clientes entonces lo defini en la tabla insurances con ownerId
+
+Modificacion 1-
+
+Queria arreglar el tema de la referencia de insurance que la tenia al owner y no al vehiculo, pero note que 
+un vehiculo puede estar asegurado por mas de una compañia como en el caso del honda accord
+entonces segun mi razonamiento eso hace que ahora la relacion sea de N:N, porque
+un vehiculo puede estar asegurado por muchas compañias de seguros y una compañia puede asegurar a muchos vehiculos
+Por eso cree la tabla cruz cars_insurance para resolver esta relacion
+Con la parte de cars entiendo el porque deberia de evitar repetir el nombre del vehiculo entonces cree la tabla carinfo
+Por lo que puedo inferir no es incorrecto repetir muchas veces una FK, como en programacion que se tiene el valor en si y luego tambien una referencia a este
+entiendo que aqui es mejor tener repetido una referencia aun valor como la entidad car antes que tener el valor de una misma entidad car repetida
+Solo no estoy seguro si el year tambien depende del vehiculo y si deberia dejarla en esta nueva tabla carinfo o la puedo dejar en la primera tabla cars
+junto con el numero de placa
