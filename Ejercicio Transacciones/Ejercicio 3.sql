@@ -4,7 +4,6 @@ DO $$
 DECLARE
 	v_bill_id INTEGER;
 	
-
 BEGIN
 	--VERIFICAR QUE LA FACTURA EXISTE
 	SELECT id INTO v_bill_id
