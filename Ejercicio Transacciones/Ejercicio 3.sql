@@ -1,29 +1,35 @@
+
 SET search_path TO "EjercicioTransacciones";
 
 DO $$
 DECLARE
-	v_bill_id INTEGER;
+	v_bill_id INTEGER = 1;
 	
 BEGIN
-	--VERIFICAR QUE LA FACTURA EXISTE
-	SELECT id INTO v_bill_id
-	FROM bills
-	WHERE id = 1;
-
-	IF v_bill_id IS NULL THEN
-		RAISE EXCEPTION 'BILL ID NOT FOUND';
+	-- CONFIRMAR QUE LA FACTURA EXISTE
+	
+	IF NOT EXISTS(
+		SELECT 1
+		FROM Bills
+		WHERE id = v_bill_id
+		AND state = 'paid'
+	) THEN
+		RAISE EXCEPTION 'BILL DOES NOT EXISTS // ALREADY RETURNED';
 	END IF;
 
-	--ACTUALIZAR EL STOCK
-	UPDATE products
-	SET quantity = quantity +1
-	WHERE id IN (1, 2);
+	--ACTUALIZA STOCK
+	
+	UPDATE Products AS p
+	SET quantity = p.quantity + pb.quantity
+	FROM Products_bills AS pb
+	WHERE p.id = pb.product_id
+	AND pb.bill_id = v_bill_id;
 
 	--MODIFICAR FACTURA ORIGINAL
 
 	UPDATE bills
 	SET state = 'returned'
-	WHERE id = 1;
+	WHERE id = v_bill_id;
 
 	RAISE NOTICE 'TRANSACCTION SUCCESS';
 
