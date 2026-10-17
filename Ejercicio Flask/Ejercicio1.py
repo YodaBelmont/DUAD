@@ -47,6 +47,7 @@ def create_task():
     task_list.append(data)
     return {"task added":data}
 
+
 @app.route("/delete_task", methods=["DELETE"])
 def delete_task():
     data = request.json
@@ -56,6 +57,18 @@ def delete_task():
             task_list.pop(index)
             return{"task deleted":task}
     return{"error":"task not found"}
+
+
+# @app.route("/edit_task", methods=["PATCH"])
+# def edit_task():
+#     data = request.json
+
+#     if "id" not in data:
+#         return {"error": "id not found"}
+
+#     for task in task_list:
+#         if data["id"] in task:
+            
 
 
 
