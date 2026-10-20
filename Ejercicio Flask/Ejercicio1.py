@@ -1,14 +1,25 @@
 from flask import Flask, request
-
+import json
 
 app = Flask(__name__)
 
 task_state = ["pending", "in progress", "completed"]
+# keys = ["id", "title", "description", "state"]
 
 task_list = []
 
 
-@app.route("/task_list")
+
+@app.route("/")
+def root():
+    with open("tasks.json", "w", encoding="utf-8") as file:
+        task_list = json.load(file)
+    if not task_list:
+        return {"error":"no data to show"}
+    return task_list
+
+
+@app.route("/task")
 def show_tasks():
     filtered_tasks = []
     
@@ -16,13 +27,14 @@ def show_tasks():
     
     if task_filter:
         for task in task_list:
-            if task_filter in task:
+            if task_filter == task["state"]:
                 filtered_tasks.append(task)
-    
+    else:
+        return task_list
     return filtered_tasks
 
 
-@app.route("/create_task", methods=["POST"])
+@app.route("/create", methods=["POST"])
 def create_task():
     data = request.json
     if "id" not in data:
@@ -48,7 +60,7 @@ def create_task():
     return {"task added":data}
 
 
-@app.route("/delete_task", methods=["DELETE"])
+@app.route("/delete", methods=["DELETE"])
 def delete_task():
     data = request.json
     
@@ -59,20 +71,13 @@ def delete_task():
     return{"error":"task not found"}
 
 
-# @app.route("/edit_task", methods=["PATCH"])
+# @app.route("/edit", methods=["PATCH"])
 # def edit_task():
 #     data = request.json
-
-#     if "id" not in data:
-#         return {"error": "id not found"}
-
-#     for task in task_list:
-#         if data["id"] in task:
-            
+    
+#     for
 
 
-
-
-if __name__ == "__main__":
-    app.run(host="localhost", debug=True)
+# if __name__ == "__main__":
+#     app.run(host="localhost", debug=True)
 
