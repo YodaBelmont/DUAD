@@ -1,0 +1,18 @@
+Tabla 1:
+
+Separar customers en una tabla aparte ya que son una unica entidad con sus propios atributos
+inclui phone number como atributo de la tabla ya que cada cliente tiene solo 1 telefono
+en caso de querer cubrir la posibilidad de almacenar mas de un solo telefono para un mismo cliente
+se crearia otra tabla solo para los numeros telefonicos como en el caso de las address que como en el
+ejercicio se muestra que cada cliente puede tener mas de una direccion entonces si hacemos una tabla solo
+para ese tipo de dato
+Luego para las ordenes las dividi en 3 tablas
+una con la informacion fija de los items con el nombre, id y precio de cada producto
+otra con las ordenes y atributos propios de la orden como el id de la orden, id del cliente ya que
+estan relacionados id de la orden con el id del cliente, siendo id del cliente un atributo de id de orden y lo agrupe con delivery time
+por la misma razon al ser atributo de la orden
+No tenia claro como organizar los detalles de la orden en si como los items individuales dentro de cada orden o la cantidad
+Conclui que como solucion podria crear otra que relacione orders e items, usando orderid e itemid como identificador de cada fila
+asi puedo incluir tambien la special request de cada item
+Si se quiere se puede modificar la special request para que en lugar de ser una peticion especial para cada producto, como el pedir una hamburguesa con papas,
+hacerlo para que sea una peticion especial de la orden al momento de la entrega, como por ejemplo pedir que se deje el pedido en la puerta o tocar el timbre
