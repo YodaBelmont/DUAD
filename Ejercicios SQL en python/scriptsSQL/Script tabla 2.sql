@@ -1,6 +1,3 @@
-
-
-
 SET search_path TO lyfter_car_rental;
 
 DROP TABLE IF EXISTS Cars;

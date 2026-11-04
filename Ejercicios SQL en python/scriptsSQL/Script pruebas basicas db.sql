@@ -1,4 +1,3 @@
-
 SET search_path TO lyfter_car_rental;
 
 --INSERT INTO Users (name, email, username, password, birth_date, account_status)
