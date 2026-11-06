@@ -1,8 +1,8 @@
-from flask import Flask, request
+from flask import Blueprint, request
 from pg_manager import PgManager
 from cars_repository import CarRepository
 
-app = Flask(__name__)
+cars_bp = Blueprint("cars", __name__)
 
 
 db_manager = PgManager(
@@ -13,14 +13,14 @@ db_manager = PgManager(
 
 cars_repo = CarRepository(db_manager)
 
-@app.route("/cars")
+@cars_bp.route("/cars")
 def get_cars():
     filters = request.args.to_dict()
     results = cars_repo.get_all(filters)
-    return results
+    return results, 200
 
 
-@app.route("/car", methods=["POST"])
+@cars_bp.route("/car", methods=["POST"])
 def create_car():
     params = request.json
     car = cars_repo.create_car(params)
@@ -30,15 +30,11 @@ def create_car():
     return {"Car created":car}, 201
 
 
-@app.route("/car", methods=["PATCH"])
+@cars_bp.route("/car", methods=["PATCH"])
 def change_car_status():
     params = request.json
     car = cars_repo.change_car_status(params)
     if not car:
-        return {"error":"An error has occurred"}, 400
+        return {"error":"An error has occurred"}, 404
     
-    return {"Car status updated":car}, 201
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    return {"Car status updated":car}, 200

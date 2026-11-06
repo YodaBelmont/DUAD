@@ -1,8 +1,8 @@
-from flask import Flask, request
+from flask import Blueprint, request
 from pg_manager import PgManager
 from user_car_rent_repository import UserCarRentRepository
 
-app = Flask(__name__)
+rents_bp = Blueprint("rents", __name__)
 
 
 db_manager = PgManager(
@@ -14,14 +14,14 @@ db_manager = PgManager(
 user_car_rent_repo = UserCarRentRepository(db_manager)
 
 
-@app.route("/car_rent")
+@rents_bp.route("/car_rent")
 def get_rent_data():
     filters = request.args.to_dict()
     results = user_car_rent_repo.get_all(filters)
     return results
 
 
-@app.route("/car_rent", methods=["POST"])
+@rents_bp.route("/car_rent", methods=["POST"])
 def register_new_rent_data():
     values = request.json
     result = user_car_rent_repo.register_new_rent(values)
@@ -32,10 +32,10 @@ def register_new_rent_data():
     return {"Rent data registered successfully": values}, 201
 
 
-@app.route("/car_rent", methods=["PATCH"])
+@rents_bp.route("/car_rent", methods=["PATCH"])
 def complete_rent():
     values = request.json
-    result = user_car_rent_repo(values)
+    result = user_car_rent_repo.complete_rent(values)
     
     if not result:
         return {"An error has occurred": values}, 400
@@ -43,18 +43,12 @@ def complete_rent():
     return {"Rent data registered successfully": values}, 201
 
 
-@app.route("/rent_status", methods=["PATCH"])
-def complete_rent():
+@rents_bp.route("/rent_status", methods=["PATCH"])
+def change_rent_status():
     values = request.json
-    result = user_car_rent_repo(values)
+    result = user_car_rent_repo.change_rent_status(values)
     
     if not result:
         return {"An error has occurred": values}, 400
     
     return {"Rent data registered successfully": values}, 201
-
-
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

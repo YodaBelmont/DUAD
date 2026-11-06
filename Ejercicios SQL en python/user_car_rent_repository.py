@@ -13,12 +13,13 @@ class UserCarRentRepository:
     
     def register_new_rent(self, values):
         try:
-            car = self.db_manager.execute_query("SELECT * FROM lyfter_car_rental.Cars WHERE id = %s", (values["car_id"]))
+            car = self.db_manager.execute_query("SELECT * FROM lyfter_car_rental.Cars WHERE id = %s AND state = 'available'", (values["car_id"], ))
             
             if not car:
                 return False
             
-            self.db_manager.execute_query("INSERT INTO lyfter_car_rental.User_car_rent (user_id, car_id, state) VALUES (%s, %s, %s, %s)", (values["user_id"], values["car_id"], values["state"]))
+            self.db_manager.execute_query("INSERT INTO lyfter_car_rental.User_car_rent (user_id, car_id, state) VALUES (%s, %s, %s)", (values["user_id"], values["car_id"], values["state"]))
+            self.db_manager.execute_query("UPDATE lyfter_car_rental.Cars SET state = 'rented' WHERE car_id = %s", (values["car_id"], ))
             print("New rent register created successfully")
             return True
         except Exception as error:
@@ -33,8 +34,8 @@ class UserCarRentRepository:
             if "car_id" not in values:
                 return False
             
-            self.db_manager.execute_query("UPDATE lyfter_car_rental.User_car_rent SET state = 'completed' WHERE id = %s", (values["rent_id"]))
-            self.db_manager.execute_query("UPDATE lyfter_car_rental.Cars SET state = 'available' WHERE car_id = %s", (values["car_id"]))
+            self.db_manager.execute_query("UPDATE lyfter_car_rental.User_car_rent SET state = 'completed' WHERE id = %s", (values["rent_id"], ))
+            self.db_manager.execute_query("UPDATE lyfter_car_rental.Cars SET state = 'available' WHERE car_id = %s", (values["car_id"], ))
             print("Rent status set to complete")
             return True
         except Exception as error:
@@ -48,7 +49,6 @@ class UserCarRentRepository:
             
             if "rent_id" not in values:
                 return False
-            
             
             self.db_manager.execute_query("UPDATE lyfter_car_rental.User_car_rent SET state = %s WHERE rent_id = %s", (values["new_status"], values["rent_id"]))
             print("Rent status updated successfully")
