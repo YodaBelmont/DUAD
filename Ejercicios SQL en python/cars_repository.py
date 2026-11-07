@@ -41,6 +41,7 @@ class CarRepository:
                 return False
             
             self.db_manager.execute_query("UPDATE lyfter_car_rental.Cars SET state = %s WHERE id = %s", (values["new_status"], values["id"]))
+            car = self.db_manager.execute_query("SELECT * FROM lyfter_car_rental.Cars WHERE id = %s", (values["id"],) )
             print("Car updated successfully")
             return car
         except Exception as error:

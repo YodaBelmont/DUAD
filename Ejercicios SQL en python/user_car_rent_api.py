@@ -40,7 +40,7 @@ def complete_rent():
     if not result:
         return {"An error has occurred": values}, 400
     
-    return {"Rent data registered successfully": values}, 201
+    return {"Rent completed successfully": values}, 200
 
 
 @rents_bp.route("/rent_status", methods=["PATCH"])
@@ -51,4 +51,4 @@ def change_rent_status():
     if not result:
         return {"An error has occurred": values}, 400
     
-    return {"Rent data registered successfully": values}, 201
+    return {"Rent status modified successfully": values}, 200

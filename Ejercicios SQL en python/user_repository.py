@@ -83,6 +83,7 @@ class UserRepository:
                 return False
             
             self.db_manager.execute_query("UPDATE lyfter_car_rental.Users SET account_status = %s WHERE id = %s", (values["new_status"], values["id"]))
+            user = self.db_manager.execute_query("SELECT * FROM lyfter_car_rental.Users WHERE id = %s", (values["id"],) )
             print("User updated successfully")
             return user
         except Exception as error:
