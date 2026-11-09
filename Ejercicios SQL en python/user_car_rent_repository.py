@@ -30,7 +30,7 @@ class UserCarRentRepository:
             if "rent_id" not in values:
                 return False
             
-            rent = self.db_manager.execute_query("SELECT * FROM lyfter_car_rental.User_car_rent WHERE id = %s", (values["rent_id"]))
+            rent = self.db_manager.execute_query("SELECT * FROM lyfter_car_rental.User_car_rent WHERE id = %s", (values["rent_id"], ))
             
             if not rent:
                 return False
@@ -52,7 +52,7 @@ class UserCarRentRepository:
             if "rent_id" not in values:
                 return False
             
-            rent = self.db_manager.execute_query("SELECT * FROM lyfter_car_rental.User_car_rent WHERE id = %s", (values["rent_id"]))
+            rent = self.db_manager.execute_query("SELECT * FROM lyfter_car_rental.User_car_rent WHERE id = %s", (values["rent_id"], ))
             
             if not rent:
                 return False
