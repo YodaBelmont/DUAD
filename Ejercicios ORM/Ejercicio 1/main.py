@@ -1,24 +1,25 @@
 from db_manager import DbManager
-from user_session import create_user, get_all_users
-from car_session import create_car, get_all_cars
-from address_session import insert_new_address, get_all_addresses
+from user_session import UserSession
+from car_session import CarSession
+from address_session import AddressSession
 
 
 def main():
     db_manager = DbManager()
     
     db_manager.create_tables()
-    
     engine = db_manager.engine
+    user_session = UserSession(engine)
+    car_session = CarSession(engine)
+    address_session = AddressSession(engine)
     
+    user_id = user_session.create_user(engine, "Juancho", "juancochor@mail.com")
+    car_session.create_car(engine, user_id, "Toyota", "Corolla", 2000)
+    address_session.insert_new_address(engine, user_id,  "Alajuela", "Naranjo", 20605)
     
-    user_id = create_user(engine, "Juancho", "juancochor@mail.com")
-    create_car(engine, user_id, "Toyota", "Corolla", 2000)
-    insert_new_address(engine, user_id,  "Alajuela", "Naranjo", 20605)
-    
-    get_all_users(engine)
-    get_all_cars(engine)
-    get_all_addresses(engine)
+    user_session.get_all_users(engine)
+    car_session.get_all_cars(engine)
+    address_session.get_all_addresses(engine)
     
     db_manager.disconnect()
 
