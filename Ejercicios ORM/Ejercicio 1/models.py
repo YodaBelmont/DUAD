@@ -9,7 +9,7 @@ class Address(Base):
     __tablename__ = "addresses"
     
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False, unique=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=True, unique=True)
     state: Mapped[str] = mapped_column(String(50))
     address: Mapped[str] = mapped_column(String(100), unique=True)
     postal_code:Mapped[int] = mapped_column()
@@ -23,10 +23,10 @@ class Car(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=True)
     brand: Mapped[str] = mapped_column(String(50))
-    model: Mapped[str] = mapped_column(String(100), unique=True)
+    model: Mapped[str] = mapped_column(String(100))
     year: Mapped[int] = mapped_column()
     
-    user: Mapped["User"] = relationship(back_populates="cars")
+    user: Mapped["User"] = relationship(back_populates="car")
 
 
 class User(Base):

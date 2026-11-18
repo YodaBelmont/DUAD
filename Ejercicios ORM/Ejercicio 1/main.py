@@ -1,5 +1,8 @@
 from db_manager import DbManager
-from session import (create_car, create_user, insert_new_address, get_all_addresses, get_all_cars, get_all_users)
+from user_session import create_user, get_all_users
+from car_session import create_car, get_all_cars
+from address_session import insert_new_address, get_all_addresses
+
 
 def main():
     db_manager = DbManager()
@@ -10,7 +13,7 @@ def main():
     
     
     user_id = create_user(engine, "Juancho", "juancochor@mail.com")
-    create_car(engine, "Toyota", "Corolla", 2000, user_id)
+    create_car(engine, user_id, "Toyota", "Corolla", 2000)
     insert_new_address(engine, user_id,  "Alajuela", "Naranjo", 20605)
     
     get_all_users(engine)

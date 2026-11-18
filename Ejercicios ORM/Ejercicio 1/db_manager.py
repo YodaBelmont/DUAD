@@ -16,8 +16,7 @@ class DbManager():
     
     def disconnect(self):
         try:
-            if self.connection:
-                self.engine.dispose()
-                print("Connection closed")
+            self.engine.dispose()
+            print("Connection closed")
         except Exception as error:
             print("Connection failed:", error)
